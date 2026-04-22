@@ -155,7 +155,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 14px 0 20px;
-    font-size: 14px;
+    font-size: 15px;
   }
   .venue .pin { font-size: 18px; line-height: 1; margin-top: 1px; }
   .venue a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px dashed #94a3b8; }
@@ -204,35 +204,138 @@
     font-variant-numeric: tabular-nums;
   }
   .timeline li .event {
-    font-size: 15px;
+    font-size: 16px;
   }
   .timeline li .event strong { font-weight: 600; }
+  .timeline li .event a.loc {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+    transition: border-bottom-style 0.15s ease;
+  }
+  .timeline li .event a.loc:hover { border-bottom-style: solid; }
   .timeline li .note {
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--muted);
-    margin-top: 3px;
+    margin-top: 4px;
   }
-  .timeline li .maplink {
+  .maplink {
     display: inline-block;
     margin-left: 6px;
-    padding: 2px 8px;
-    font-size: 11px;
+    padding: 3px 9px;
+    font-size: 12px;
     font-weight: 600;
-    color: white;
-    background: currentColor;
+    color: white !important;
     border-radius: 4px;
     text-decoration: none;
     vertical-align: middle;
     opacity: 0.9;
   }
-  .timeline li .maplink span { color: white; }
-  .timeline li .maplink:hover { opacity: 1; }
+  .maplink span { color: white; }
+  .maplink:hover { opacity: 1; }
 
   .timeline.thu { color: var(--thu); }
   .timeline.fri { color: var(--fri); }
   .timeline.sat { color: var(--sat); }
   .timeline.sun { color: var(--sun); }
+  .timeline.thu .maplink, .maplink.thu { background: var(--thu); }
+  .timeline.fri .maplink, .maplink.fri { background: var(--fri); }
+  .timeline.sat .maplink, .maplink.sat { background: var(--sat); }
+  .timeline.sun .maplink, .maplink.sun { background: var(--sun); }
+
+  /* Walking route map (collapsible) */
+  details.walk-map-wrap {
+    margin: 0 0 22px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #eef2f7;
+    box-shadow: 0 2px 6px -2px rgba(15,23,42,0.08);
+  }
+  details.walk-map-wrap > summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  details.walk-map-wrap > summary::-webkit-details-marker { display: none; }
+  details.walk-map-wrap > summary::marker { display: none; }
+  .walk-map-header {
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.2px;
+    transition: filter 0.15s ease;
+  }
+  details.walk-map-wrap > summary:hover .walk-map-header,
+  details.walk-map-wrap > summary:focus-visible .walk-map-header {
+    filter: brightness(1.07);
+  }
+  .walk-map-header .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.22);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .walk-map-toggle {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.95;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .walk-map-toggle::after {
+    content: "▸";
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    line-height: 1;
+  }
+  details[open] .walk-map-toggle::after { transform: rotate(90deg); }
+  details.walk-map-wrap:not([open]) .walk-map-toggle .label-open { display: inline; }
+  details.walk-map-wrap:not([open]) .walk-map-toggle .label-close { display: none; }
+  details.walk-map-wrap[open] .walk-map-toggle .label-open { display: none; }
+  details.walk-map-wrap[open] .walk-map-toggle .label-close { display: inline; }
+  .walk-map-footer {
+    padding: 8px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+  }
+  #thu-walk-map {
+    height: 420px;
+    width: 100%;
+    touch-action: none;  /* let Leaflet handle pinch/drag gestures on mobile */
+  }
+  .stop-marker {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--thu);
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2.5px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .stop-marker.start { background: #16a34a; }
+  .stop-marker.end   { background: #dc2626; }
 
   /* Key info box */
   .keyinfo {
@@ -241,7 +344,7 @@
     background: #fffbeb;
     border: 1px solid #fde68a;
     border-radius: 10px;
-    font-size: 13.5px;
+    font-size: 14.5px;
     color: #78350f;
   }
   .keyinfo .title {
@@ -378,6 +481,7 @@
     .timeline li { padding-left: 104px; }
     .timeline li .time { width: 70px; font-size: 12px; }
     .timeline li .dot { left: 73px; }
+    #thu-walk-map { height: 340px; }
   }
 </style>
 </head>
@@ -431,22 +535,50 @@
         <div>
           Commute via Metro — Park at
           <a href="https://www.google.com/maps/search/?api=1&query=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener">Vienna Metro Station (9550 Saintsbury Dr, Fairfax, VA 22031)</a>
-          · approx. $5 parking/day
+          · approx. $5 parking/day · Orange Line to
+          <a href="https://www.google.com/maps/search/?api=1&query=L'Enfant+Plaza+Station+Washington+DC" target="_blank" rel="noopener">L'Enfant Plaza Station</a>
         </div>
       </div>
+
+      <div class="venue">
+        <span class="pin">🚶</span>
+        <div>
+          <strong>Walking loop from L'Enfant Plaza:</strong>
+          L'Enfant Plaza → Air &amp; Space → Botanic Garden → Capitol → Library of Congress → Washington Monument → White House → Lincoln Memorial → L'Enfant Plaza
+          <a class="maplink thu" href="https://www.google.com/maps/dir/?api=1&origin=L%27Enfant+Plaza+Station+Washington+DC&destination=L%27Enfant+Plaza+Station+Washington+DC&waypoints=Smithsonian+National+Air+and+Space+Museum%7CUnited+States+Botanic+Garden%7CUS+Capitol+Visitor+Center%7CLibrary+of+Congress%7CWashington+Monument%7CThe+White+House%7CLincoln+Memorial&travelmode=walking" target="_blank" rel="noopener"><span>Open in Google Maps</span></a>
+        </div>
+      </div>
+
+      <details class="walk-map-wrap" id="thu-walk-map-details">
+        <summary>
+          <div class="walk-map-header">
+            <span>🗺️ Thursday Walking Route · National Mall Loop</span>
+            <span class="chip">9 stops</span>
+            <span class="chip" id="walk-dist">~3 mi</span>
+            <span class="walk-map-toggle">
+              <span class="label-open">Tap to view map</span>
+              <span class="label-close">Tap to hide</span>
+            </span>
+          </div>
+        </summary>
+        <div id="thu-walk-map"></div>
+        <div class="walk-map-footer">
+          Green = start · Red = return to L'Enfant Plaza · <strong>pinch to zoom</strong> (mobile) or use the +/− buttons · click/tap a pin for details
+        </div>
+      </details>
 
       <ul class="timeline thu">
         <li>
           <span class="time">7:00 – 8:00 AM</span>
           <span class="dot"></span>
           <span class="event"><strong>Breakfast at the hotel</strong>
-            <span class="note">Staybridge Suites Chantilly Dulles Airport</span>
+            <span class="note"><a class="loc" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">Staybridge Suites Chantilly Dulles Airport</a></span>
           </span>
         </li>
         <li>
           <span class="time">8:00 – 8:30 AM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Drive to Vienna Metro Station</strong>
+          <span class="event"><strong>Drive to <a class="loc" href="https://www.google.com/maps/search/?api=1&query=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener">Vienna Metro Station</a></strong>
             <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener"><span>Directions</span></a>
             <span class="note">Park &amp; board Orange Line toward DC · ~$5 parking/day</span>
           </span>
@@ -454,55 +586,55 @@
         <li>
           <span class="time">8:41 – 9:27 AM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Metro to L'Enfant Plaza Station</strong>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=L'Enfant+Plaza+Station+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
-            <span class="note">Walk to the Air &amp; Space Museum (~5 min)</span>
+          <span class="event"><strong>Metro to <a class="loc" href="https://www.google.com/maps/search/?api=1&query=L'Enfant+Plaza+Station+Washington+DC" target="_blank" rel="noopener">L'Enfant Plaza Station</a></strong>
+            <span class="note">Walk to the <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Smithsonian+National+Air+and+Space+Museum+Washington+DC" target="_blank" rel="noopener">Air &amp; Space Museum</a> (~5 min)</span>
           </span>
         </li>
         <li>
           <span class="time">10:00 AM</span>
           <span class="dot"></span>
-          <span class="event"><strong>National Air &amp; Space Museum</strong> <em>(booked)</em>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Smithsonian+National+Air+and+Space+Museum+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
-            <span class="note">Then walk to U.S. Botanic Garden</span>
+          <span class="event"><strong><a class="loc" href="https://www.google.com/maps/search/?api=1&query=Smithsonian+National+Air+and+Space+Museum+Washington+DC" target="_blank" rel="noopener">National Air &amp; Space Museum</a></strong> <em>(booked)</em>
+            <span class="note">Then walk to <a class="loc" href="https://www.google.com/maps/search/?api=1&query=United+States+Botanic+Garden" target="_blank" rel="noopener">U.S. Botanic Garden</a></span>
           </span>
         </li>
         <li>
           <span class="time">~12:30 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>U.S. Botanic Garden</strong>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=United+States+Botanic+Garden" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong><a class="loc" href="https://www.google.com/maps/search/?api=1&query=United+States+Botanic+Garden" target="_blank" rel="noopener">U.S. Botanic Garden</a></strong>
             <span class="note">Free entry · quick lunch break nearby</span>
           </span>
         </li>
         <li>
           <span class="time">1:20 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>U.S. Capitol Hill Tour</strong> <em>(booked)</em>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=US+Capitol+Visitor+Center" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong><a class="loc" href="https://www.google.com/maps/search/?api=1&query=US+Capitol+Visitor+Center" target="_blank" rel="noopener">U.S. Capitol Hill Tour</a></strong> <em>(booked)</em>
             <span class="note">Arrive 15 min early for security screening</span>
           </span>
         </li>
         <li>
           <span class="time">3:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Library of Congress</strong> <em>(booked)</em>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Library+of+Congress+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong><a class="loc" href="https://www.google.com/maps/search/?api=1&query=Library+of+Congress+Washington+DC" target="_blank" rel="noopener">Library of Congress</a></strong> <em>(booked)</em>
             <span class="note">Jefferson Building — connected to Capitol via tunnel</span>
           </span>
         </li>
         <li>
           <span class="time">4:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Monuments walk</strong>: Washington Monument → White House → Lincoln Memorial
-            <a class="maplink" href="https://www.google.com/maps/dir/Washington+Monument/The+White+House/Lincoln+Memorial" target="_blank" rel="noopener"><span>Route</span></a>
+          <span class="event"><strong>Monuments walk</strong>:
+            <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Washington+Monument" target="_blank" rel="noopener">Washington Monument</a> →
+            <a class="loc" href="https://www.google.com/maps/search/?api=1&query=The+White+House" target="_blank" rel="noopener">White House</a> →
+            <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Lincoln+Memorial" target="_blank" rel="noopener">Lincoln Memorial</a>
+            <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=Washington+Monument&destination=Lincoln+Memorial&waypoints=The+White+House&travelmode=walking" target="_blank" rel="noopener"><span>Walk route</span></a>
             <span class="note">~1.6 mi walk along the National Mall</span>
           </span>
         </li>
         <li>
           <span class="time">5:41 – 6:27 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Metro: L'Enfant Plaza → Vienna Station</strong>
+          <span class="event"><strong>Metro:
+            <a class="loc" href="https://www.google.com/maps/search/?api=1&query=L'Enfant+Plaza+Station+Washington+DC" target="_blank" rel="noopener">L'Enfant Plaza</a> →
+            <a class="loc" href="https://www.google.com/maps/search/?api=1&query=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener">Vienna Station</a></strong>
             <span class="note">Drive back to hotel</span>
           </span>
         </li>
@@ -510,8 +642,7 @@
           <span class="time">7:00 – 8:00 PM</span>
           <span class="dot"></span>
           <span class="event"><strong>Meet with teacher &amp; coaches</strong>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener"><span>Map</span></a>
-            <span class="note">Staybridge Suites Chantilly Dulles Airport · 3860 Centerview Drive, Chantilly, VA 20151</span>
+            <span class="note"><a class="loc" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">Staybridge Suites Chantilly Dulles Airport</a> · 3860 Centerview Drive, Chantilly, VA 20151</span>
           </span>
         </li>
       </ul>
@@ -551,28 +682,26 @@
         <li>
           <span class="time">9:00 AM – 4:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>NAR set-up at Great Meadow</strong>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Great+Meadow+5089+Old+Tavern+Road+The+Plains+VA+20198" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong>NAR set-up at <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Great+Meadow+5089+Old+Tavern+Road+The+Plains+VA+20198" target="_blank" rel="noopener">Great Meadow</a></strong>
             <span class="note">Teams may visit to look — NO test flights allowed</span>
           </span>
         </li>
         <li>
           <span class="time">Afternoon</span>
           <span class="dot"></span>
-          <span class="event"><strong>Optional: Udvar-Hazy Tour</strong> (if requested)
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong>Optional: <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener">Udvar-Hazy</a> Tour</strong> (if requested)
             <span class="note">90-min guided tour near Dulles Airport · pre-registration required</span>
           </span>
         </li>
         <li>
           <span class="time">5:00 – 6:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>NAR uniform issue to range crew</strong> <em>(Metz MS)</em></span>
+          <span class="event"><strong>NAR uniform issue to range crew</strong> <em>(<a class="loc" href="https://www.google.com/maps/search/?api=1&query=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener">Metz MS</a>)</em></span>
         </li>
         <li>
           <span class="time">6:00 – 7:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Arrive at Metz Middle School</strong>
+          <span class="event"><strong>Arrive at <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener">Metz Middle School</a></strong>
             <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener"><span>Directions</span></a>
             <span class="note">Pick up registration materials · Aurora shipments available from 6:00 PM</span>
           </span>
@@ -599,14 +728,14 @@
         <li>
           <span class="time">~9:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Drive back to hotel</strong>
+          <span class="event"><strong>Drive back to <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">hotel</a></strong>
             <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110&destination=3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener"><span>Directions</span></a>
           </span>
         </li>
         <li>
           <span class="time">9:30 – 10:30 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>🧠 Team Strategy Session</strong> (hotel) — plan for the drawn altitude targets
+          <span class="event"><strong>🧠 Team Strategy Session</strong> (<a class="loc" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">hotel</a>) — plan for the drawn altitude targets
             <span class="note">
               Now that the 1st &amp; 2nd round altitudes are known, students discuss:<br>
               • <strong>Ballast / weight tuning</strong> to hit the target altitude (goal: 725–775 ft)<br>
@@ -803,21 +932,20 @@
           <span class="time">Morning</span>
           <span class="dot"></span>
           <span class="event"><strong>Sleep in, breakfast, pack up</strong>
-            <span class="note">Hotel checkout — Staybridge Suites Chantilly</span>
+            <span class="note">Hotel checkout — <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">Staybridge Suites Chantilly</a></span>
           </span>
         </li>
         <li>
           <span class="time">Late morning</span>
           <span class="dot"></span>
-          <span class="event"><strong>Optional: last-minute sightseeing or Udvar-Hazy Center</strong>
-            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener"><span>Map</span></a>
+          <span class="event"><strong>Optional: last-minute sightseeing or <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener">Udvar-Hazy Center</a></strong>
             <span class="note">Udvar-Hazy is only ~3 mi from the hotel — great if time permits</span>
           </span>
         </li>
         <li>
           <span class="time">~2:30 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Head to IAD airport</strong>
+          <span class="event"><strong>Head to <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Washington+Dulles+International+Airport+IAD" target="_blank" rel="noopener">IAD</a> airport</strong>
             <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=Washington+Dulles+International+Airport" target="_blank" rel="noopener"><span>Directions</span></a>
             <span class="note">Return rental car · clear security</span>
           </span>
@@ -825,14 +953,14 @@
         <li>
           <span class="time">~3:00 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>Arrive at IAD — check in for flight</strong>
+          <span class="event"><strong>Arrive at <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Washington+Dulles+International+Airport+IAD" target="_blank" rel="noopener">IAD</a> — check in for flight</strong>
             <span class="note">Aim to be at gate by 5:00 PM</span>
           </span>
         </li>
         <li>
           <span class="time">5:55 PM</span>
           <span class="dot"></span>
-          <span class="event"><strong>✈️ UA 326 · United Airlines · IAD → SEA</strong>
+          <span class="event"><strong>✈️ UA 326 · United Airlines · <a class="loc" href="https://www.google.com/maps/search/?api=1&query=Washington+Dulles+International+Airport+IAD" target="_blank" rel="noopener">IAD</a> → SEA</strong>
             <span class="note">Return flight to Seattle</span>
           </span>
         </li>
@@ -1022,5 +1150,133 @@
     Created April 21, 2026 · Tap a day name above to jump to that day · Print-friendly
   </footer>
 </div>
+
+<!-- Leaflet for Thursday walking map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.min.js"></script>
+<script>
+(function () {
+  const stops = [
+    { name: "L'Enfant Plaza Metro",         coord: [38.8847, -77.0226], label: "S", cls: "start" },
+    { name: "National Air & Space Museum",  coord: [38.8882, -77.0199], label: "1" },
+    { name: "U.S. Botanic Garden",          coord: [38.8879, -77.0131], label: "2" },
+    { name: "U.S. Capitol",                 coord: [38.8899, -77.0091], label: "3" },
+    { name: "Library of Congress",          coord: [38.8887, -77.0047], label: "4" },
+    { name: "Washington Monument",          coord: [38.8895, -77.0353], label: "5" },
+    { name: "The White House",              coord: [38.8977, -77.0365], label: "6" },
+    { name: "Lincoln Memorial",             coord: [38.8893, -77.0502], label: "7" },
+    { name: "L'Enfant Plaza Metro (return)", coord: [38.8847, -77.0226], label: "E", cls: "end" }
+  ];
+
+  let map = null;
+  let routeDrawn = false;
+
+  function initMap() {
+    if (map) return;
+
+    map = L.map('thu-walk-map', {
+      // Zoom controls
+      zoomControl: true,
+      scrollWheelZoom: false,   // don't hijack page scroll on arrival; re-enabled on first click
+      doubleClickZoom: true,
+      boxZoom: true,
+      // Touch / mobile gestures — explicit so nothing is accidentally disabled
+      touchZoom: true,          // two-finger pinch
+      dragging: true,
+      tapHold: true,
+      bounceAtZoomLimits: true
+    }).setView([38.8905, -77.028], 13);
+
+    // CARTO Voyager — free OSM-based tiles, no Referer restriction
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+
+    // First map click enables scroll-wheel zoom for desktop users
+    map.once('click', function () { map.scrollWheelZoom.enable(); });
+
+    // Numbered markers
+    stops.forEach(function (s) {
+      const icon = L.divIcon({
+        html: '<div class="stop-marker ' + (s.cls || '') + '">' + s.label + '</div>',
+        className: '',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+      L.marker(s.coord, { icon: icon, title: s.name })
+        .addTo(map)
+        .bindPopup('<strong>' + s.name + '</strong>');
+    });
+
+    loadRoute();
+  }
+
+  function drawRoute(latlngs, distanceMeters) {
+    if (routeDrawn) return;
+    routeDrawn = true;
+    L.polyline(latlngs, { color: '#ffffff', weight: 8, opacity: 0.9 }).addTo(map);
+    const line = L.polyline(latlngs, { color: '#2563eb', weight: 5, opacity: 0.95 }).addTo(map);
+    L.polylineDecorator(line, {
+      patterns: [{
+        offset: 25,
+        repeat: 85,
+        symbol: L.Symbol.arrowHead({
+          pixelSize: 14,
+          polygon: true,
+          pathOptions: { color: '#1d4ed8', fillOpacity: 1, weight: 0 }
+        })
+      }]
+    }).addTo(map);
+    map.fitBounds(line.getBounds(), { padding: [40, 40] });
+
+    if (distanceMeters != null) {
+      const miles = (distanceMeters / 1609.344).toFixed(1);
+      const dEl = document.getElementById('walk-dist');
+      if (dEl) dEl.textContent = '~' + miles + ' mi';
+    }
+  }
+
+  function loadRoute() {
+    // Try OSRM walking router for a street-accurate path; fall back to straight lines.
+    const coordsStr = stops.map(function (s) { return s.coord[1] + ',' + s.coord[0]; }).join(';');
+    const url = 'https://router.project-osrm.org/route/v1/foot/' + coordsStr +
+                '?overview=full&geometries=geojson';
+
+    fetch(url)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        if (data && data.routes && data.routes[0]) {
+          const geo = data.routes[0].geometry.coordinates.map(function (c) { return [c[1], c[0]]; });
+          drawRoute(geo, data.routes[0].distance);
+        } else {
+          drawRoute(stops.map(function (s) { return s.coord; }));
+        }
+      })
+      .catch(function () {
+        drawRoute(stops.map(function (s) { return s.coord; }));
+      });
+  }
+
+  // Lazy-init on first open of the <details>. Ensures Leaflet measures a visible container.
+  const details = document.getElementById('thu-walk-map-details');
+  if (details) {
+    details.addEventListener('toggle', function () {
+      if (details.open) {
+        initMap();
+        // Leaflet needs to re-measure after the container becomes visible
+        setTimeout(function () { if (map) map.invalidateSize(); }, 60);
+        setTimeout(function () { if (map) map.invalidateSize(); }, 350);
+      }
+    });
+    // If page loads with details already open (e.g. anchor link or deep state), init now
+    if (details.open) initMap();
+  }
+})();
+</script>
 </body>
 </html>
