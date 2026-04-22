@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Washington DC Trip — 2026 ARC National Finals</title>
+<style>
+  :root {
+    --thu: #2563eb;   /* blue */
+    --fri: #7c3aed;   /* purple */
+    --sat: #dc2626;   /* red */
+    --sun: #0891b2;   /* cyan */
+    --ink: #0f172a;
+    --muted: #64748b;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #be123c 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 40px 36px;
+    margin-bottom: 36px;
+    box-shadow: 0 20px 40px -16px rgba(30, 58, 138, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 85% 20%, rgba(255,255,255,0.18), transparent 40%);
+    pointer-events: none;
+  }
+  .hero .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    opacity: 0.85;
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    margin: 0 0 12px;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .hero .dates {
+    font-size: 18px;
+    opacity: 0.95;
+    font-weight: 500;
+  }
+  .hero .summary {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .hero .stat {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+  .hero .stat .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+  .hero .stat .value { font-size: 15px; font-weight: 600; margin-top: 4px; }
+
+  /* Day navigation */
+  .daynav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+    justify-content: center;
+  }
+  .daynav a {
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 10px -4px rgba(0,0,0,0.25);
+  }
+  .daynav a:hover { transform: translateY(-2px); box-shadow: 0 8px 14px -4px rgba(0,0,0,0.3); }
+  .daynav a.thu { background: var(--thu); }
+  .daynav a.fri { background: var(--fri); }
+  .daynav a.sat { background: var(--sat); }
+  .daynav a.sun { background: var(--sun); }
+  .daynav a.proc { background: #334155; }
+
+  /* Day card */
+  .day {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px -2px rgba(15, 23, 42, 0.08);
+  }
+  .day-header {
+    padding: 24px 28px;
+    color: white;
+    position: relative;
+  }
+  .day-header.thu { background: linear-gradient(135deg, #1d4ed8, #2563eb); }
+  .day-header.fri { background: linear-gradient(135deg, #6d28d9, #7c3aed); }
+  .day-header.sat { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+  .day-header.sun { background: linear-gradient(135deg, #0e7490, #0891b2); }
+  .day-header .daytag {
+    display: inline-block;
+    background: rgba(255,255,255,0.22);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .day-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .day-header .subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    opacity: 0.92;
+  }
+  .day-body { padding: 20px 28px 28px; }
+
+  /* Venue banner inside day */
+  .venue {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f1f5f9;
+    border-left: 4px solid #94a3b8;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0 20px;
+    font-size: 14px;
+  }
+  .venue .pin { font-size: 18px; line-height: 1; margin-top: 1px; }
+  .venue a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px dashed #94a3b8; }
+  .venue a:hover { border-bottom-style: solid; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    margin: 0;
+    padding: 6px 0 0 0;
+    list-style: none;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 110px;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline li {
+    position: relative;
+    padding: 10px 0 10px 140px;
+    min-height: 36px;
+  }
+  .timeline li .dot {
+    position: absolute;
+    left: 105px;
+    top: 18px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid currentColor;
+  }
+  .timeline li .time {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 100px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline li .event {
+    font-size: 15px;
+  }
+  .timeline li .event strong { font-weight: 600; }
+  .timeline li .note {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .timeline li .maplink {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    background: currentColor;
+    border-radius: 4px;
+    text-decoration: none;
+    vertical-align: middle;
+    opacity: 0.9;
+  }
+  .timeline li .maplink span { color: white; }
+  .timeline li .maplink:hover { opacity: 1; }
+
+  .timeline.thu { color: var(--thu); }
+  .timeline.fri { color: var(--fri); }
+  .timeline.sat { color: var(--sat); }
+  .timeline.sun { color: var(--sun); }
+
+  /* Key info box */
+  .keyinfo {
+    margin-top: 22px;
+    padding: 14px 18px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #78350f;
+  }
+  .keyinfo .title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #92400e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Hotel / quick-ref section */
+  .quickref {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .qcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .qcard h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+  .qcard p { margin: 4px 0; font-size: 14px; }
+  .qcard a { color: #1d4ed8; text-decoration: none; font-weight: 500; }
+  .qcard a:hover { text-decoration: underline; }
+
+  /* Finals Procedures section */
+  .procedures {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-top: 40px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px -2px rgba(15,23,42,0.08);
+  }
+  .procedures-header {
+    background: linear-gradient(135deg, #0f172a, #334155);
+    color: white;
+    padding: 22px 28px;
+  }
+  .procedures-header .daytag {
+    display: inline-block;
+    background: rgba(255,255,255,0.22);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .procedures-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .procedures-header .subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  .procedures-body { padding: 18px 24px 24px; }
+  .proc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .proc-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .proc-card h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .proc-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13.5px;
+    color: #1e293b;
+  }
+  .proc-card ul li { margin-bottom: 5px; line-height: 1.45; }
+  .proc-card.danger { background: #fef2f2; border-color: #fecaca; }
+  .proc-card.danger h4 { color: #991b1b; }
+  .proc-card.warn { background: #fffbeb; border-color: #fde68a; }
+  .proc-card.warn h4 { color: #92400e; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .wrap { max-width: none; padding: 0; }
+    .daynav { display: none; }
+    .hero { break-after: avoid; box-shadow: none; }
+    .day { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    a { color: inherit; text-decoration: none; }
+    .maplink { display: none !important; }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .hero { padding: 28px 22px; }
+    .hero h1 { font-size: 28px; }
+    .day-body { padding: 16px 18px 22px; }
+    .day-header { padding: 20px 22px; }
+    .timeline::before { left: 78px; }
+    .timeline li { padding-left: 104px; }
+    .timeline li .time { width: 70px; font-size: 12px; }
+    .timeline li .dot { left: 73px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Family Trip Itinerary</div>
+    <h1>Washington DC — 2026 ARC National Finals</h1>
+    <div class="dates">Thursday, May 14 – Sunday, May 17, 2026</div>
+    <div class="summary">
+      <div class="stat">
+        <div class="label">Duration</div>
+        <div class="value">4 days / 3 nights</div>
+      </div>
+      <div class="stat">
+        <div class="label">Hotel</div>
+        <div class="value">Staybridge Suites Chantilly</div>
+      </div>
+      <div class="stat">
+        <div class="label">Return Flight</div>
+        <div class="value">UA 326 · IAD → Seattle</div>
+      </div>
+      <div class="stat">
+        <div class="label">Event</div>
+        <div class="value">American Rocketry Challenge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day nav -->
+  <nav class="daynav">
+    <a href="#thu" class="thu">Thu · May 14</a>
+    <a href="#fri" class="fri">Fri · May 15</a>
+    <a href="#sat" class="sat">Sat · May 16</a>
+    <a href="#sun" class="sun">Sun · May 17</a>
+    <a href="#procedures" class="proc">📋 Finals Procedures</a>
+  </nav>
+
+  <!-- THURSDAY -->
+  <section class="day" id="thu">
+    <div class="day-header thu">
+      <span class="daytag">Day 1</span>
+      <h2>Thursday, May 14 — DC Sightseeing Day</h2>
+      <div class="subtitle">Exploring the National Mall: museums, monuments &amp; the Capitol</div>
+    </div>
+    <div class="day-body">
+      <div class="venue">
+        <span class="pin">📍</span>
+        <div>
+          Commute via Metro — Park at
+          <a href="https://www.google.com/maps/search/?api=1&query=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener">Vienna Metro Station (9550 Saintsbury Dr, Fairfax, VA 22031)</a>
+          · approx. $5 parking/day
+        </div>
+      </div>
+
+      <ul class="timeline thu">
+        <li>
+          <span class="time">7:00 – 8:00 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Breakfast at the hotel</strong>
+            <span class="note">Staybridge Suites Chantilly Dulles Airport</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">8:00 – 8:30 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Drive to Vienna Metro Station</strong>
+            <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener"><span>Directions</span></a>
+            <span class="note">Park &amp; board Orange Line toward DC · ~$5 parking/day</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">8:41 – 9:27 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Metro to L'Enfant Plaza Station</strong>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=L'Enfant+Plaza+Station+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Walk to the Air &amp; Space Museum (~5 min)</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">10:00 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>National Air &amp; Space Museum</strong> <em>(booked)</em>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Smithsonian+National+Air+and+Space+Museum+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Then walk to U.S. Botanic Garden</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">~12:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>U.S. Botanic Garden</strong>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=United+States+Botanic+Garden" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Free entry · quick lunch break nearby</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">1:20 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>U.S. Capitol Hill Tour</strong> <em>(booked)</em>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=US+Capitol+Visitor+Center" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Arrive 15 min early for security screening</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">3:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Library of Congress</strong> <em>(booked)</em>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Library+of+Congress+Washington+DC" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Jefferson Building — connected to Capitol via tunnel</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">4:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Monuments walk</strong>: Washington Monument → White House → Lincoln Memorial
+            <a class="maplink" href="https://www.google.com/maps/dir/Washington+Monument/The+White+House/Lincoln+Memorial" target="_blank" rel="noopener"><span>Route</span></a>
+            <span class="note">~1.6 mi walk along the National Mall</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">5:41 – 6:27 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Metro: L'Enfant Plaza → Vienna Station</strong>
+            <span class="note">Drive back to hotel</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">7:00 – 8:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Meet with teacher &amp; coaches</strong>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Staybridge Suites Chantilly Dulles Airport · 3860 Centerview Drive, Chantilly, VA 20151</span>
+          </span>
+        </li>
+      </ul>
+
+      <div class="keyinfo">
+        <div class="title">✈️ Tip</div>
+        Keep your 3 booked time slots (Air &amp; Space, Capitol, Library of Congress) as anchors — everything else flexes around them. Bring photo ID for the Capitol tour.
+      </div>
+    </div>
+  </section>
+
+  <!-- FRIDAY -->
+  <section class="day" id="fri">
+    <div class="day-header fri">
+      <span class="daytag">Day 2 · ARC</span>
+      <h2>Friday, May 15 — Welcome &amp; Team Briefing</h2>
+      <div class="subtitle">ARC registration, sticker exchange &amp; finalist team briefing</div>
+    </div>
+    <div class="day-body">
+      <div class="venue">
+        <span class="pin">📍</span>
+        <div>
+          All Friday evening events at
+          <a href="https://www.google.com/maps/search/?api=1&query=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener">Metz Middle School · 9950 Wellington Road, Manassas, VA 20110</a>
+          — ~6 miles from hotels. Plan for heavy I-66 traffic after 2:00 PM.
+        </div>
+      </div>
+
+      <ul class="timeline fri">
+        <li>
+          <span class="time">8:00 – 11:00 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Rockets on the Hill</strong> <em>(by invitation only)</em>
+            <span class="note">Check email for invitation from April 6</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">9:00 AM – 4:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>NAR set-up at Great Meadow</strong>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Great+Meadow+5089+Old+Tavern+Road+The+Plains+VA+20198" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Teams may visit to look — NO test flights allowed</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">Afternoon</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Optional: Udvar-Hazy Tour</strong> (if requested)
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">90-min guided tour near Dulles Airport · pre-registration required</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">5:00 – 6:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>NAR uniform issue to range crew</strong> <em>(Metz MS)</em></span>
+        </li>
+        <li>
+          <span class="time">6:00 – 7:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Arrive at Metz Middle School</strong>
+            <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener"><span>Directions</span></a>
+            <span class="note">Pick up registration materials · Aurora shipments available from 6:00 PM</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">6:00 – 9:45 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Finalist registration &amp; Aurora shipment pickup</strong></span>
+        </li>
+        <li>
+          <span class="time">6:30 – 7:15 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>NEW! RTX Sticker Exchange</strong> (gym)
+            <span class="note">Bring ~700 team stickers (1" diameter) to trade</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">7:30 – 8:45 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Finalist Team Briefing</strong> (auditorium) — <em>required</em>
+            <span class="note">🎯 <strong>Random altitude draw</strong> for both flight rounds (altitudes between 725–775 ft, different target for 1st vs 2nd round). Duration goal: 36–39 sec both rounds. Weather call for Saturday announced.</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">~9:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Drive back to hotel</strong>
+            <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110&destination=3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener"><span>Directions</span></a>
+          </span>
+        </li>
+        <li>
+          <span class="time">9:30 – 10:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>🧠 Team Strategy Session</strong> (hotel) — plan for the drawn altitude targets
+            <span class="note">
+              Now that the 1st &amp; 2nd round altitudes are known, students discuss:<br>
+              • <strong>Ballast / weight tuning</strong> to hit the target altitude (goal: 725–775 ft)<br>
+              • <strong>Parachute size</strong> for 36–39 sec descent time<br>
+              • <strong>Altimeter programming</strong> — know how to set it as launch status<br>
+              • <strong>Check the Saturday forecast</strong> &amp; fine-tune weight and parachute strategy for temperature and wind<br>
+              • Prepare a written checklist for tomorrow's 45-min prep window
+            </span>
+          </span>
+        </li>
+        <li>
+          <span class="time">~10:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Lights out</strong> — early start tomorrow!</span>
+        </li>
+      </ul>
+
+      <div class="keyinfo">
+        <div class="title">⚠️ Important</div>
+        Arrive at Metz MS no earlier than 6:00 PM and no later than 7:00 PM to avoid lines. Do NOT go to Aurora directly — shipments are delivered to Metz.
+      </div>
+    </div>
+  </section>
+
+  <!-- SATURDAY -->
+  <section class="day" id="sat">
+    <div class="day-header sat">
+      <span class="daytag">Day 3 · Competition</span>
+      <h2>Saturday, May 16 — ARC National Finals</h2>
+      <div class="subtitle">Fly-off day at Great Meadow · plan to stay through 8:00 PM BBQ</div>
+    </div>
+    <div class="day-body">
+      <div class="venue">
+        <span class="pin">📍</span>
+        <div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Great+Meadow+5089+Old+Tavern+Road+The+Plains+VA+20198" target="_blank" rel="noopener">Great Meadow · 5089 Old Tavern Road, The Plains, VA 20198</a>
+          — I-66 exit 31, left on Hwy 245, follow signs 2 mi · <strong>Gate 5</strong> general parking (free).
+          Arrive at least 2 hours before your assigned launch window.
+        </div>
+      </div>
+
+      <ul class="timeline sat">
+        <li>
+          <span class="time">6:45 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Finalist Registration &amp; Egg Issue open</strong>
+            <span class="note">First launch window teams — arrive now</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">7:00 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Pre-Flight Check-In opens</strong> (1st 24 teams)</span>
+        </li>
+        <li>
+          <span class="time">7:30 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Gates open for spectators</strong></span>
+        </li>
+        <li>
+          <span class="time">8:15 – 8:30 AM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Opening Ceremony · National Anthem</strong></span>
+        </li>
+        <li>
+          <span class="time">~2 hrs before<br>your window</span>
+          <span class="dot"></span>
+          <span class="event"><strong>🔧 45-min Prep Window — students only</strong> (no adults in check-in / on field)
+            <span class="note">
+              Prep window = the 45-min launch window <em>immediately before</em> your team's. Be done setting up by the time your launch window opens.<br>
+              ✅ <strong>Pick up NAR-issued egg</strong> at Egg Issue table (55–63 g, ≤45 mm)<br>
+              ✅ <strong>Install new altimeter</strong> &amp; program for drawn altitude target<br>
+              ✅ <strong>Install the egg</strong> into capsule per design<br>
+              ✅ <strong>Install rocket motor</strong> with mechanical retention (clip / hook / screw-on cap — not friction fit)<br>
+              ✅ Pre-flight safety &amp; rules-compliance inspection by judges<br>
+              ✅ Confirm <strong>ARC team number is on the rocket</strong><br>
+              📵 <strong>NO cell phones / digital devices / radios</strong> from check-in until rocket is returned — violation = escorted off the field
+            </span>
+          </span>
+        </li>
+        <li>
+          <span class="time">8:30 – 9:15 AM</span>
+          <span class="dot"></span>
+          <span class="event">Goddard 1 — 24 team 1st launches</span>
+        </li>
+        <li>
+          <span class="time">9:15 – 10:00 AM</span>
+          <span class="dot"></span>
+          <span class="event">Stine 2 — 18 team 1st launches</span>
+        </li>
+        <li>
+          <span class="time">10:00 – 10:45 AM</span>
+          <span class="dot"></span>
+          <span class="event">Goddard 3 — 24 team 1st launches</span>
+        </li>
+        <li>
+          <span class="time">10:00 AM – 3:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Team Rocket-Building Competition</strong> (Members' Hill)</span>
+        </li>
+        <li>
+          <span class="time">10:45 – 11:30 AM</span>
+          <span class="dot"></span>
+          <span class="event">Stine 4 — 18 team 1st launches</span>
+        </li>
+        <li>
+          <span class="time">11:00 AM – 2:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Lunch</strong> for Finalists &amp; Team Advisor (Dining Tent)</span>
+        </li>
+        <li>
+          <span class="time">11:30 – 12:15 PM</span>
+          <span class="dot"></span>
+          <span class="event">Goddard 5 — 17 team 1st launches</span>
+        </li>
+        <li>
+          <span class="time">12:45 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>NAR High-Power Rocket Demonstration</strong></span>
+        </li>
+        <li>
+          <span class="time">1:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Deadline</strong> — returning rockets post-flight (1st flights)</span>
+        </li>
+        <li>
+          <span class="time">1:15 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Announcement: Top 42 teams</strong> from preliminary round</span>
+        </li>
+        <li>
+          <span class="time">2:15 – 4:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Astronaut Ice Cream Social</strong> for teams 🍦</span>
+        </li>
+        <li>
+          <span class="time">2:15 – 3:00 PM</span>
+          <span class="dot"></span>
+          <span class="event">Goddard 6 — 1st–24th team 2nd launches (fly-off)</span>
+        </li>
+        <li>
+          <span class="time">3:00 – 3:45 PM</span>
+          <span class="dot"></span>
+          <span class="event">Stine 7 — 25th–42nd team 2nd launches (fly-off) <em>** weather permitting **</em></span>
+        </li>
+        <li>
+          <span class="time">4:00 – 4:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>NAR High-Power Rocket Demonstration</strong></span>
+        </li>
+        <li>
+          <span class="time">4:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Deadline</strong> — returning rockets post-flight (2nd flights)</span>
+        </li>
+        <li>
+          <span class="time">5:00 – 6:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>🏆 Awards Ceremony</strong> (Dining Tent)</span>
+        </li>
+        <li>
+          <span class="time">6:00 – 8:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>BBQ Dinner</strong> — then head back to hotel</span>
+        </li>
+      </ul>
+
+      <div class="keyinfo">
+        <div class="title">🌦️ Weather Contingency</div>
+        If Saturday weather is unfavorable (heavy rain or sustained winds &gt;20 mph), fly-off postpones to <strong>Sunday, May 17</strong>. Decision announced at Friday's briefing. Keep the return flight buffer in mind.
+      </div>
+    </div>
+  </section>
+
+  <!-- SUNDAY -->
+  <section class="day" id="sun">
+    <div class="day-header sun">
+      <span class="daytag">Day 4 · Departure</span>
+      <h2>Sunday, May 17 — Fly Home to Seattle</h2>
+      <div class="subtitle">Relaxed morning · depart from IAD in the late afternoon</div>
+    </div>
+    <div class="day-body">
+      <div class="venue">
+        <span class="pin">✈️</span>
+        <div>
+          Depart from
+          <a href="https://www.google.com/maps/search/?api=1&query=Washington+Dulles+International+Airport+IAD" target="_blank" rel="noopener">Washington Dulles International Airport (IAD)</a>
+          — ~5 miles / 10 min from the hotel.
+        </div>
+      </div>
+
+      <ul class="timeline sun">
+        <li>
+          <span class="time">Morning</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Sleep in, breakfast, pack up</strong>
+            <span class="note">Hotel checkout — Staybridge Suites Chantilly</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">Late morning</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Optional: last-minute sightseeing or Udvar-Hazy Center</strong>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Steven+F+Udvar-Hazy+Center" target="_blank" rel="noopener"><span>Map</span></a>
+            <span class="note">Udvar-Hazy is only ~3 mi from the hotel — great if time permits</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">~2:30 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Head to IAD airport</strong>
+            <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=3860+Centerview+Drive+Chantilly+VA+20151&destination=Washington+Dulles+International+Airport" target="_blank" rel="noopener"><span>Directions</span></a>
+            <span class="note">Return rental car · clear security</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">~3:00 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>Arrive at IAD — check in for flight</strong>
+            <span class="note">Aim to be at gate by 5:00 PM</span>
+          </span>
+        </li>
+        <li>
+          <span class="time">5:55 PM</span>
+          <span class="dot"></span>
+          <span class="event"><strong>✈️ UA 326 · United Airlines · IAD → SEA</strong>
+            <span class="note">Return flight to Seattle</span>
+          </span>
+        </li>
+      </ul>
+
+      <div class="keyinfo">
+        <div class="title">⏰ Buffer Reminder</div>
+        If the fly-off postpones to Sunday, departure timing gets tight. Consider putting hotel checkout &amp; luggage in the car before heading to Great Meadow that morning.
+      </div>
+    </div>
+  </section>
+
+  <!-- Finals Procedures Summary -->
+  <section class="procedures" id="procedures">
+    <div class="procedures-header">
+      <span class="daytag">Reference</span>
+      <h2>ARC Finals Procedures — Key Rules &amp; DQ Risks</h2>
+      <div class="subtitle">Summary of the official FINALS PROCEDURES document · review before Saturday</div>
+    </div>
+    <div class="procedures-body">
+      <div class="proc-grid">
+
+        <div class="proc-card danger">
+          <h4>📵 Students-Only &amp; Digital Disconnect</h4>
+          <ul>
+            <li>Only student team members in check-in or on the flying field — no teachers, parents, or mentors may assist with prep/launch</li>
+            <li><strong>No cell phones, digital devices, or radios</strong> for students from check-in until rocket is returned</li>
+            <li>Violation = escorted off field, credentials confiscated, barred for the rest of the day</li>
+            <li>Medical phone accommodations must be pre-requested in online forms</li>
+            <li>Once a rocket is in check-in, it may not leave until after it has flown</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>⏱️ Launch Windows &amp; Timing</h4>
+          <ul>
+            <li>Each team gets a <strong>45-min prep window + 45-min launch window</strong></li>
+            <li>Assignments posted by <strong>May 11, 2026</strong> at rocketrychallenge.org — not negotiable</li>
+            <li>Arrive at Great Meadow <strong>at least 2 hours</strong> before your launch window</li>
+            <li>Prep window = the launch window immediately before yours</li>
+            <li>Must achieve liftoff during your window or be disqualified — misfires are not an excuse; don't wait until the last moment</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>🚀 Flight Rounds &amp; Fly-off</h4>
+          <ul>
+            <li>All 1st flights complete by <strong>12:15 PM</strong></li>
+            <li>Top <strong>24–42 teams</strong> invited to 2nd flight (2:15–3:45 PM)</li>
+            <li>Round 1 &amp; Round 2 use <strong>different</strong> altitude targets, both drawn Friday night (both 725–775 ft)</li>
+            <li>Duration goal: <strong>36–39 seconds</strong> for both rounds</li>
+            <li>Final ranking = <strong>sum of both flight scores</strong></li>
+            <li>Fly-off teams notified by 1:15 PM · top 40 (or 20 if weather-shortened) are awarded</li>
+            <li>2nd-round flight may use a different (previously test-flown) rocket</li>
+          </ul>
+        </div>
+
+        <div class="proc-card danger">
+          <h4>🥚 Returns &amp; Eggs — Critical</h4>
+          <ul>
+            <li>Must return rocket with <strong>egg + altimeter still inside</strong> to Returns Table</li>
+            <li>Team owns the egg until handed to the NAR return official — <strong>any breakage until then = DQ</strong></li>
+            <li>Egg breakage <em>on landing</em> before return = disqualified</li>
+            <li><strong>1st-flight returns:</strong> by <strong>1:00 PM</strong></li>
+            <li><strong>2nd-flight returns:</strong> by <strong>4:30 PM</strong></li>
+            <li>Egg is provided by NAR (≤45 mm dia, 55–63 g, weight marked to 0.1 g)</li>
+            <li>Rockets stuck high in trees or on power lines = non-recoverable; may use replacement</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>📐 Rocket Design Rules</h4>
+          <ul>
+            <li>Max <strong>650 g</strong> at liftoff (rocket + egg + motor)</li>
+            <li>Max <strong>80 N·s</strong> total impulse across all motors</li>
+            <li>Min <strong>650 mm</strong> overall height · min <strong>47 mm</strong> body-tube OD (same diameter full length)</li>
+            <li><strong>Single stage only</strong></li>
+            <li>Motor retention must be <strong>mechanical</strong> (clip, hook, screw-on cap — or non-heat-sensitive tape on exposed motor tube); no friction fit</li>
+            <li>All sections must stay connected on recovery via parachute — any separation = DQ</li>
+            <li>Paper/wood/fiber surfaces must have a <strong>decorative finish</strong> (paint or adhesive patterns) — else 5-pt penalty</li>
+            <li>ARC team number must be on the rocket · must have been test-flown before</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>⚡ Launch Equipment</h4>
+          <ul>
+            <li>NAR provides: 6-ft <strong>"1010" T-slot launch rail</strong>, three-legged pad, 18 A / 12 V ignition leads (car battery + 60 ft of 16-ga wire)</li>
+            <li>Your rocket <strong>needs size 1010 rail buttons</strong> — launch rods not allowed</li>
+            <li>Min rail/launcher length: 6 ft</li>
+            <li>Teams may bring their own pad/rail/launch system — must comply with NAR Safety Code &amp; have a blast deflector; safety check required</li>
+            <li>"Clip whip" needed if lighting clusters of motors from the single pair of micro-clips</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>🎛️ Electronics &amp; Control</h4>
+          <ul>
+            <li>No radio control or human intervention during flight</li>
+            <li>Allowed: onboard timers, altimeters, autonomous flight control</li>
+            <li><strong>Not allowed:</strong> pyrotechnic deployment charges (black powder, pyrodex, small rocket motors)</li>
+            <li>Allowed for recovery triggering: burn-through wires or igniters</li>
+            <li>Acceleration-triggered systems must have a safety disconnect (switch/plug) — won't be allowed to fly otherwise</li>
+          </ul>
+        </div>
+
+        <div class="proc-card warn">
+          <h4>🧰 Primary + Backup Model</h4>
+          <ul>
+            <li><strong>Bring 2 models</strong> if possible</li>
+            <li>Backup flights may be allowed for: unrecoverable tree/power-line landing, motor catastrophic failure, or altimeter failure (reading &gt;0 but &lt;50 ft)</li>
+            <li>Backup slots reserved in the last 1st-flight window (11:30 AM – 12:15 PM)</li>
+            <li>Design changes allowed up until check-in — no requirement to fly the same qualification design</li>
+          </ul>
+        </div>
+
+        <div class="proc-card">
+          <h4>🌬️ Weather &amp; Wind</h4>
+          <ul>
+            <li>NAR Safety Code limit: <strong>20 mph wind</strong></li>
+            <li>At that wind, a rocket aloft ≤39 sec should stay on the field</li>
+            <li>If heavy rain or sustained &gt;20 mph winds all day → fly-off postpones to Sunday (announced Friday night)</li>
+            <li>Thunderstorms that shorten the day may reduce fly-off to 24 teams / single round</li>
+          </ul>
+        </div>
+
+        <div class="proc-card danger">
+          <h4>⚠️ Top Disqualification Risks</h4>
+          <ul>
+            <li>Broken egg at or before return to NAR official</li>
+            <li>Not flying within your assigned launch window</li>
+            <li>Rocket sections separating in flight (other than wadding)</li>
+            <li>Phone / digital device in check-in area or on field</li>
+            <li>Motor not mechanically retained</li>
+            <li>Missing / bad altimeter reading (&gt;0 but &lt;50 ft → backup flight may be allowed)</li>
+            <li>Missing the returns deadline (1:00 PM / 4:30 PM)</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick reference cards -->
+  <div class="quickref">
+    <div class="qcard">
+      <h3>🏨 Hotel</h3>
+      <p><strong>Staybridge Suites Chantilly Dulles Airport</strong></p>
+      <p>3860 Centerview Drive, Chantilly, VA 20151</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Staybridge+Suites+Chantilly+Dulles+Airport+3860+Centerview+Drive+Chantilly+VA+20151" target="_blank" rel="noopener">Open in Maps →</a></p>
+    </div>
+    <div class="qcard">
+      <h3>🚇 Metro Parking</h3>
+      <p><strong>Vienna Metro Station</strong></p>
+      <p>9550 Saintsbury Dr, Fairfax, VA 22031</p>
+      <p>Orange Line toward DC · ~$5/day</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=9550+Saintsbury+Dr+Fairfax+VA+22031" target="_blank" rel="noopener">Open in Maps →</a></p>
+    </div>
+    <div class="qcard">
+      <h3>🎯 Friday — Metz MS</h3>
+      <p><strong>Metz Middle School</strong></p>
+      <p>9950 Wellington Road, Manassas, VA 20110</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Metz+Middle+School+9950+Wellington+Road+Manassas+VA+20110" target="_blank" rel="noopener">Open in Maps →</a></p>
+    </div>
+    <div class="qcard">
+      <h3>🚀 Saturday — Great Meadow</h3>
+      <p><strong>Great Meadow</strong></p>
+      <p>5089 Old Tavern Road, The Plains, VA 20198</p>
+      <p>Gate 5 — general parking (free)</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Great+Meadow+5089+Old+Tavern+Road+The+Plains+VA+20198" target="_blank" rel="noopener">Open in Maps →</a></p>
+    </div>
+    <div class="qcard">
+      <h3>✈️ Sunday — IAD</h3>
+      <p><strong>Washington Dulles Intl. (IAD)</strong></p>
+      <p>UA 326 · 5:55 PM departure → SEA</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Washington+Dulles+International+Airport" target="_blank" rel="noopener">Open in Maps →</a></p>
+    </div>
+    <div class="qcard">
+      <h3>🗓️ Booked Tours (Thu)</h3>
+      <p>• 10:00 AM — Air &amp; Space Museum</p>
+      <p>• 1:20 PM — U.S. Capitol</p>
+      <p>• 3:00 PM — Library of Congress</p>
+    </div>
+  </div>
+
+  <footer>
+    Created April 21, 2026 · Tap a day name above to jump to that day · Print-friendly
+  </footer>
+</div>
+</body>
+</html>

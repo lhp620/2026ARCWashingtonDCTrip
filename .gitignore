@@ -1,0 +1,13 @@
+# Official ARC documents (copyrighted — keep local only)
+*.pdf
+
+# Personal trip draft notes (keep local only)
+Thursday_05142026.txt
+Sunday_05172026.txt
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
